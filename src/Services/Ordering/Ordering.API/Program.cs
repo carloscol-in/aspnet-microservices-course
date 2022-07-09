@@ -12,6 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
+// General Configuration of Services
+builder.Services.AddAutoMapper(typeof(Program));
+
 // Add RabbitMQ services
 builder.Services.AddMassTransit(config =>
 {

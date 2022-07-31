@@ -14,6 +14,7 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 
 // General Configuration of Services
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddScoped<BasketCheckoutConsumer>();
 
 // Add RabbitMQ services
 builder.Services.AddMassTransit(config =>
@@ -21,7 +22,7 @@ builder.Services.AddMassTransit(config =>
     config.AddConsumer<BasketCheckoutConsumer>();
     config.UsingRabbitMq((ctx, cfg) =>
     {
-        cfg.Host(builder.Configuration.GetValue<string>("MessageBusSettings__RabbitMqHost"));
+        cfg.Host(builder.Configuration.GetValue<string>("MessageBusSettings:RabbitMqHost"));
 
         cfg.ReceiveEndpoint(EventBusConstants.BasketCheckoutQueue, c =>
         {

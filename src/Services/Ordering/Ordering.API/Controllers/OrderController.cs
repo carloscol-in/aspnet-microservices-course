@@ -31,22 +31,22 @@ namespace Ordering.API.Controllers
             return Ok(orders);
         }
 
-        [HttpPost(Name = "CheckoutOrder")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> CheckoutOrder([FromBody] CheckoutOrderCommand command)
-        {
-            int result;
-            try
-            {
-                result = await _mediator.Send(command);
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-            return Ok(result);
-        }
+        //[HttpPost(Name = "CheckoutOrder")]
+        //[ProducesResponseType((int)HttpStatusCode.OK)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //public async Task<ActionResult<int>> CheckoutOrder([FromBody] CheckoutOrderCommand command)
+        //{
+        //    int result;
+        //    try
+        //    {
+        //        result = await _mediator.Send(command);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    return Ok(result);
+        //}
 
         [HttpPut(Name = "UpdateOrder")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

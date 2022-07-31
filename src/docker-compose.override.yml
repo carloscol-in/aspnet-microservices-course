@@ -11,6 +11,7 @@ services:
       - "8000:80"
     depends_on:
       - catalogdb
+
   catalogdb:
     container_name: catalogdb
     restart: always
@@ -28,10 +29,13 @@ services:
       - CacheSettings__ConnectionString=basketdb:6379
       - CacheSettings__Password=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
       - GrpcSettings__DiscountUrl=http://discount.grpc
+      - MessageBusSettings__RabbitMqHost=amqp://guest:guest@rabbitmq:5672
     ports:
       - "8001:80"
     depends_on:
       - basketdb
+      - rabbitmq
+
   basketdb:
     container_name: basketdb
     restart: always
@@ -52,6 +56,7 @@ services:
       - "8002:80"
     depends_on:
       - discountdb
+
   discount.grpc:
     container_name: discount.grpc
     environment:
@@ -61,6 +66,7 @@ services:
       - "8003:80"
     depends_on:
       - discountdb
+
   discountdb:
     container_name: discountdb
     environment:
@@ -72,6 +78,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+
   pgadmin:
     container_name: pgadmin
     environment:
@@ -101,10 +108,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__OrderingConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=Admin12345678
+      - MessageBusSettings__RabbitMqHost=amqp://guest:guest@rabbitmq:5672
     ports:
       - "8004:80"
     depends_on:
       - orderdb
+      - rabbitmq
   ## End of Ordering API services ##
 
   ## Portainer services
@@ -127,3 +136,18 @@ services:
       - "5672:5672"
       - "15672:15672"
   ## End of RabbitMQ services ##
+
+  ## Ocelot API Gateway services ##
+  ocelotapigw:
+    container_name: ocelotapigw
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    restart: always
+    depends_on:
+      - discount.api
+      - order.api
+      - basket.api
+      - catalog.api
+    ports:
+      - "8010:80"
+  ## End of Ocelot API Gateway services ##

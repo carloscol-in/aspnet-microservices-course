@@ -46,7 +46,7 @@ namespace Ordering.Application.Features.Commands.CheckoutOrder
             }
             catch(Exception ex)
             {
-                _logger.LogError($"Error when sending confirmation email for order {order.Id}");
+                _logger.LogError($"Error when sending confirmation email for order {order.Id}: {ex.Message}");
             }
         }
     }

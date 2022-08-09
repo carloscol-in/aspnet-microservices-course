@@ -151,3 +151,19 @@ services:
     ports:
       - "8010:80"
   ## End of Ocelot API Gateway services ##
+
+  ## Shopping Aggregator services ##
+  shopping.aggregator:
+    container_name: shopping.aggregator
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ApiSettings__CatalogUrl=http://catalog.api
+      - ApiSettings__BasketUrl=http://basket.api
+      - ApiSettings__OrderUrl=http://ordering.api
+    depends_on:
+      - ordering.api
+      - basket.api
+      - catalog.api
+    ports:
+      - "8005:80"
+  ## End of Shopping Aggregator services ##

@@ -117,11 +117,11 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "order.api",
+          "Host": "ordering.api",
           "Port": "80"
         }
       ],
-      "UpstreamPathTemplate": "/Order/{username}",
+      "UpstreamPathTemplate": "/Order/{userName}",
       "UpstreamHttpMethod": [ "GET" ]
     }
   ],
